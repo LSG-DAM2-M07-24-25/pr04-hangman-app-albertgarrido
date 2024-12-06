@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -13,12 +14,10 @@ import com.example.pr04_hangman_app_albertgarrido.R
 
 
 @Composable
-fun LaunchScreen(
-    viewModel: LaunchScreenViewModel = viewModel(),
-    onNavigateToMenu: () -> Unit
-) {
+fun LaunchScreen(viewModel: LaunchScreenViewModel = viewModel(), onNavigateToMenu: () -> Unit) {
+
     // Observa el estado del temporizador
-    val isTimerFinished by viewModel.isTimerFinished.collectAsState()
+    val isTimerFinished: Boolean by viewModel.isTimerFinished.observeAsState(initial = false)
 
     // Navega al menú principal cuando el temporizador termine
     if (isTimerFinished) {
