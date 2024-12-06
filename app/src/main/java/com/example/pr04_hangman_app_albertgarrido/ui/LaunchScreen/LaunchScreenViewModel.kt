@@ -1,4 +1,6 @@
 package com.example.pr04_hangman_app_albertgarrido.ui.LaunchScreen
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
@@ -8,8 +10,9 @@ import kotlinx.coroutines.flow.StateFlow
 
 class LaunchScreenViewModel : ViewModel() {
 
-    private val _isTimerFinished = MutableStateFlow(false)
-    val isTimerFinished: StateFlow<Boolean> = _isTimerFinished
+    private val _isTimerFinished = MutableLiveData<Boolean>()
+    val isTimerFinished: LiveData<Boolean> = _isTimerFinished
+
 
     init {
         loadGame()
