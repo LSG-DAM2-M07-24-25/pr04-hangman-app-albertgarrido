@@ -64,6 +64,8 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.5.1")
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.navigation.common.ktx)
+    implementation(libs.androidx.navigation.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -20,8 +20,11 @@ fun LaunchScreen(viewModel: LaunchScreenViewModel = viewModel(), onNavigateToMen
     val isTimerFinished: Boolean by viewModel.isTimerFinished.observeAsState(initial = false)
 
     // Navega al menú principal cuando el temporizador termine
-    if (isTimerFinished) {
-        onNavigateToMenu()
+    // Solo se hace 1 vez la transición
+    LaunchedEffect(isTimerFinished) {
+        if (isTimerFinished) {
+            onNavigateToMenu()
+        }
     }
 
     // UI del Launch Screen
