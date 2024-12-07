@@ -3,51 +3,60 @@ package com.example.pr04_hangman_app_albertgarrido
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.pr04_hangman_app_albertgarrido.ui.LaunchScreen.LaunchScreen
+import com.example.pr04_hangman_app_albertgarrido.ui.game.GameScreen
 import com.example.pr04_hangman_app_albertgarrido.ui.menu.MenuScreen
 import com.example.pr04_hangman_app_albertgarrido.ui.theme.Pr04hangmanappalbertgarridoTheme
+import navigation.Routes
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             Pr04hangmanappalbertgarridoTheme {
-                var showLaunchScreen by remember { mutableStateOf(true) }
+                val navController = rememberNavController()
 
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    if (showLaunchScreen) {
-                        LaunchScreen(
-                            onNavigateToMenu = {
-                                showLaunchScreen = false
-                            }
-                        )
-                    } else {
-                        //Menu del juego
-                        MenuScreen(
-                            modifier = Modifier.padding(innerPadding)
-                        )
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    NavHost(
+                        navController = navController,
+                        startDestination = Routes.Launch.route
+                    ) {
+                        composable(Routes.Launch.route) {
+                            LaunchScreen(
+                                onNavigateToMenu = {
+                                    navController.navigate(Routes.Menu.route)
+                                }
+                            )
+                        }
+                        composable(Routes.Menu.route) {
+                            MenuScreen(
+                                onNavigateToGame = { difficulty ->
+                                    navController.navigate(Routes.Game.createRoute(difficulty))
+                                }
+                            )
+                        }
+                        composable(
+                            route = Routes.Game.route,
+                            arguments = listOf(navArgument("difficulty") { type = NavType.StringType })
+                        ) { backStackEntry ->
+                            val difficulty = backStackEntry.arguments?.getString("difficulty").orEmpty()
+                            GameScreen(difficulty = difficulty)
+                        }
+                    }
                 }
             }
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Pr04hangmanappalbertgarridoTheme {
-    }
-}}
