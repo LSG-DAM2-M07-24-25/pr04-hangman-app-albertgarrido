@@ -22,7 +22,6 @@ import com.example.pr04_hangman_app_albertgarrido.R
 
 @Composable
 fun MenuScreen(
-    modifier: Modifier = Modifier,
     viewModel: MenuScreenViewModel = viewModel(),
     onNavigateToGame: (String) -> Unit
 ) {

@@ -1,14 +1,15 @@
-package com.example.pr04_hangman_app_albertgarrido.logic
+package com.example.pr04_hangman_app_albertgarrido.game
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.pr04_hangman_app_albertgarrido.ui.navigation.Routes
 
 class GameScreenViewModel : ViewModel() {
 
     private val footballPlayersEasy = listOf("Messi", "Ramos", "Xavi", "Iniesta", "Kane")
-    private val footballPlayersMedium = listOf("Neymar", "Mbappe", "Modric", "Haaland", "DeBruyne")
-    private val footballPlayersHard = listOf("CristianoRonaldo", "Lewandowski", "Ibrahimovic", "VanDijk", "Fernandes")
+    private val footballPlayersMedium = listOf("Neymar", "Mbappe", "Modric", "Haaland", "De Bruyne")
+    private val footballPlayersHard = listOf("Cristiano Ronaldo", "Robert Lewandowski", "Zlatan Ibrahimovic", "Van Dijk", "Lamine Yamal")
 
     private lateinit var wordToGuess: String
     private var maxAttempts: Int = 0
@@ -28,7 +29,10 @@ class GameScreenViewModel : ViewModel() {
     private val _guessedLetters = MutableLiveData<Set<Char>>(emptySet())
     val guessedLetters: LiveData<Set<Char>> = _guessedLetters
 
-    // Método para inicializar la lógica del juego
+    private val _isGameFinished = MutableLiveData<Triple<Boolean, Int, String>?>()
+    val isGameFinished: LiveData<Triple<Boolean, Int, String>?> = _isGameFinished
+
+    // Inicializa la lógica del juego
     fun initialize(difficulty: String) {
         wordToGuess = when (difficulty) {
             "Easy" -> footballPlayersEasy.random()
@@ -44,9 +48,12 @@ class GameScreenViewModel : ViewModel() {
             else -> 10
         }
 
-        // Inicializa LiveData con valores iniciales
+        // Revela los espacios desde el inicio y oculta las letras
+        _revealedWord.value = wordToGuess.map { char ->
+            if (char.isWhitespace()) " " else "_"
+        }.joinToString("")
+
         _attemptsLeft.value = maxAttempts
-        _revealedWord.value = "_".repeat(wordToGuess.length)
         _gameOver.value = false
         _isWin.value = false
         _guessedLetters.value = emptySet()
@@ -77,18 +84,26 @@ class GameScreenViewModel : ViewModel() {
         _revealedWord.value = updatedWord?.concatToString()
     }
 
+    fun resetGameFinishEvent() {
+        _isGameFinished.value = null
+    }
+
     private fun checkWinCondition() {
         if (_revealedWord.value?.equals(wordToGuess, ignoreCase = true) == true) {
             _isWin.value = true
             _gameOver.value = true
+            _isGameFinished.value = Triple(true, _attemptsLeft.value ?: 0, wordToGuess)
         }
     }
 
     private fun checkLoseCondition() {
         if (_attemptsLeft.value == 0) {
             _gameOver.value = true
+            _isGameFinished.value = Triple(false, 0, wordToGuess)
         }
     }
+
+
 
     // Método para obtener la palabra a adivinar
     fun getWordToGuess(): String = wordToGuess
