@@ -1,5 +1,4 @@
-package navigation
-
+package com.example.pr04_hangman_app_albertgarrido.ui.navigation
 
 sealed class Routes(val route: String) {
     object Launch : Routes("launch")

@@ -15,8 +15,8 @@ import androidx.navigation.navArgument
 import com.example.pr04_hangman_app_albertgarrido.ui.LaunchScreen.LaunchScreen
 import com.example.pr04_hangman_app_albertgarrido.ui.game.GameScreen
 import com.example.pr04_hangman_app_albertgarrido.ui.menu.MenuScreen
+import com.example.pr04_hangman_app_albertgarrido.ui.navigation.NavigationGraph
 import com.example.pr04_hangman_app_albertgarrido.ui.theme.Pr04hangmanappalbertgarridoTheme
-import navigation.Routes
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,34 +29,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavHost(
-                        navController = navController,
-                        startDestination = Routes.Launch.route
-                    ) {
-                        composable(Routes.Launch.route) {
-                            LaunchScreen(
-                                onNavigateToMenu = {
-                                    navController.navigate(Routes.Menu.route)
-                                }
-                            )
-                        }
-                        composable(Routes.Menu.route) {
-                            MenuScreen(
-                                onNavigateToGame = { difficulty ->
-                                    navController.navigate(Routes.Game.createRoute(difficulty))
-                                }
-                            )
-                        }
-                        composable(
-                            route = Routes.Game.route,
-                            arguments = listOf(navArgument("difficulty") { type = NavType.StringType })
-                        ) { backStackEntry ->
-                            val difficulty = backStackEntry.arguments?.getString("difficulty").orEmpty()
-                            GameScreen(difficulty = difficulty)
-                        }
-                    }
+                    NavigationGraph(navController = navController)
                 }
-            }
-        }
-    }
+            }}}
 }
