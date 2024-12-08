@@ -6,4 +6,9 @@ sealed class Routes(val route: String) {
     object Game : Routes("game/{difficulty}") {
         fun createRoute(difficulty: String) = "game/$difficulty"
     }
+    object Result : Routes("result/{isWin}/{attemptsLeft}/{word}") {
+        fun createRoute(isWin: Boolean, attemptsLeft: Int, word: String) =
+            "result/$isWin/$attemptsLeft/$word"
+    }
+
 }

@@ -2,11 +2,14 @@ package com.example.pr04_hangman_app_albertgarrido.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.pr04_hangman_app_albertgarrido.ui.LaunchScreen.LaunchScreen
-import com.example.pr04_hangman_app_albertgarrido.ui.menu.MenuScreen
 import com.example.pr04_hangman_app_albertgarrido.ui.game.GameScreen
+import com.example.pr04_hangman_app_albertgarrido.ui.menu.MenuScreen
+import com.example.pr04_hangman_app_albertgarrido.ui.result.ResultScreen
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {
@@ -27,7 +30,27 @@ fun NavigationGraph(navController: NavHostController) {
 
         composable(Routes.Game.route) { backStackEntry ->
             val difficulty = backStackEntry.arguments?.getString("difficulty") ?: "Easy"
-            GameScreen(difficulty)
+            GameScreen(difficulty = difficulty, navController = navController)
+        }
+
+        composable(
+            route = Routes.Result.route,
+            arguments = listOf(
+                navArgument("isWin") { type = NavType.BoolType },
+                navArgument("attemptsLeft") { type = NavType.IntType },
+                navArgument("word") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val isWin = backStackEntry.arguments?.getBoolean("isWin") ?: false
+            val attemptsLeft = backStackEntry.arguments?.getInt("attemptsLeft") ?: 0
+            val word = backStackEntry.arguments?.getString("word") ?: ""
+
+            ResultScreen(
+                navController = navController,
+                isWin = isWin,
+                attemptsLeft = attemptsLeft,
+                word = word
+            )
         }
     }
-}
+    }
