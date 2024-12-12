@@ -38,18 +38,21 @@ fun NavigationGraph(navController: NavHostController) {
             arguments = listOf(
                 navArgument("isWin") { type = NavType.BoolType },
                 navArgument("attemptsLeft") { type = NavType.IntType },
-                navArgument("word") { type = NavType.StringType }
+                navArgument("word") { type = NavType.StringType },
+                navArgument("difficulty") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val isWin = backStackEntry.arguments?.getBoolean("isWin") ?: false
             val attemptsLeft = backStackEntry.arguments?.getInt("attemptsLeft") ?: 0
             val word = backStackEntry.arguments?.getString("word") ?: ""
+            val difficulty = backStackEntry.arguments?.getString("difficulty") ?: "Easy"
 
             ResultScreen(
                 navController = navController,
                 isWin = isWin,
                 attemptsLeft = attemptsLeft,
-                word = word
+                word = word,
+                difficulty = difficulty
             )
         }
     }

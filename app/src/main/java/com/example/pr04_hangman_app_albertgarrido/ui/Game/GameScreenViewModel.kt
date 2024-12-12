@@ -3,13 +3,12 @@ package com.example.pr04_hangman_app_albertgarrido.game
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.pr04_hangman_app_albertgarrido.ui.navigation.Routes
 
 class GameScreenViewModel : ViewModel() {
 
-    private val footballPlayersEasy = listOf("Messi", "Ramos", "Xavi", "Iniesta", "Kane")
-    private val footballPlayersMedium = listOf("Neymar", "Mbappe", "Modric", "Haaland", "De Bruyne")
-    private val footballPlayersHard = listOf("Cristiano Ronaldo", "Robert Lewandowski", "Zlatan Ibrahimovic", "Van Dijk", "Lamine Yamal")
+    private val footballPlayersEasy = listOf("Messi", "Ramos", "Xavi", "Gavi", "Kane, Puyol")
+    private val footballPlayersMedium = listOf("Neymar", "Mbappe", "Modric", "Haaland", "Pedri, Cubarsi")
+    private val footballPlayersHard = listOf("Cristiano Ronaldo", "Robert Lewandowski", "Zlatan Ibrahimovic", "Ferran Torres", "Lamine Yamal")
 
     private lateinit var wordToGuess: String
     private var maxAttempts: Int = 0

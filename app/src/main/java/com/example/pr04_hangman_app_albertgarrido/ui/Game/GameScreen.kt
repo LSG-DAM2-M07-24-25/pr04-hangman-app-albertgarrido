@@ -22,15 +22,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.pr04_hangman_app_albertgarrido.R
 import com.example.pr04_hangman_app_albertgarrido.game.GameScreenViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen(
     difficulty: String,
@@ -48,7 +50,9 @@ fun GameScreen(
 
     LaunchedEffect(isGameFinished) {
         isGameFinished?.let { (isWin, score) ->
-            navController.navigate(Routes.Result.createRoute(isWin, score, viewModel.getWordToGuess()))
+            navController.navigate(Routes.Result.createRoute(isWin, score, viewModel.getWordToGuess(), difficulty)) {
+                popUpTo(Routes.Game.route) { inclusive = true }
+            }
             viewModel.resetGameFinishEvent()
         }
     }
@@ -78,10 +82,14 @@ fun GameScreen(
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // Word Display
                 WordDisplay(
                     revealedWord = revealedWord,
                     modifier = Modifier.padding(vertical = 24.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.penjat),
+                    contentDescription = "App Logo",
+                    modifier = Modifier.size(400.dp)
                 )
             }
 
@@ -121,8 +129,14 @@ fun KeyboardButton(
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy,
             stiffness = Spring.StiffnessLow
-        )
+        ), label = ""
     )
+
+    val contentColor = if (isGuessed) {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    } else {
+        MaterialTheme.colorScheme.onPrimary
+    }
 
     Button(
         onClick = onClick,
@@ -131,17 +145,21 @@ fun KeyboardButton(
         shape = CircleShape,
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor,
-            contentColor = MaterialTheme.colorScheme.onPrimary
+            contentColor = contentColor,
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = 4.dp,
-            pressedElevation = 8.dp
+            pressedElevation = 8.dp,
+            disabledElevation = 0.dp
         )
     ) {
         Text(
             text = letter.toString(),
             fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = contentColor
         )
     }
 }
@@ -152,43 +170,54 @@ fun WordDisplay(
     revealedWord: String,
     modifier: Modifier = Modifier
 ) {
-    Row(
+    val words = revealedWord.split(" ")
+
+    Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        revealedWord.forEachIndexed { index, char ->
-            AnimatedVisibility(
-                visible = true,
-                enter = fadeIn(),
-                exit = fadeOut()
+        words.forEach { word ->
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = char.toString(),
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = if (char == '_') {
-                            MaterialTheme.colorScheme.onSurfaceVariant
-                        } else {
-                            MaterialTheme.colorScheme.onSurface
-                        },
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(horizontal = 4.dp)
-                    )
-                    if (char == '_') {
-                        Box(
-                            modifier = Modifier
-                                .width(24.dp)
-                                .height(2.dp)
-                                .padding(top = 4.dp)
-                        )
+                word.forEach { char ->
+                    AnimatedVisibility(
+                        visible = true,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = char.toString(),
+                                style = MaterialTheme.typography.headlineMedium,
+                                color = if (char == '_') {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                } else {
+                                    MaterialTheme.colorScheme.onSurface
+                                },
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.padding(horizontal = 4.dp)
+                            )
+                            if (char == '_') {
+                                Box(
+                                    modifier = Modifier
+                                        .width(24.dp)
+                                        .height(2.dp)
+                                        .padding(top = 4.dp)
+                                )
+                            }
+                        }
                     }
                 }
             }
         }
     }
 }
+
 

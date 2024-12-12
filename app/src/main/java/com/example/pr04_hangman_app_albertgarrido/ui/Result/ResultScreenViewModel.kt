@@ -12,6 +12,14 @@ class ResultScreenViewModel : ViewModel() {
     private val _dynamicMessage = MutableLiveData<String>()
     val dynamicMessage: LiveData<String> = _dynamicMessage
 
+    private val _currentDifficulty = MutableLiveData<String>()
+    val currentDifficulty: LiveData<String> = _currentDifficulty
+
+    fun setDifficulty(difficulty: String) {
+        _currentDifficulty.value = difficulty
+    }
+
+
     // Configurar los datos iniciales desde los parámetros pasados
     fun setResult(isWin: Boolean, attemptsLeft: Int, word: String) {
         _resultMessage.value = if (isWin) {
