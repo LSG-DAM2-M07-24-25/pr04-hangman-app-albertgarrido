@@ -58,12 +58,17 @@ La app utiliza Navegación Declarativa de Jetpack Compose para gestionar las tra
 
 1. **Pantalla de Inicio (LaunchScreen):**
    - Presenta un logotipo con una barra de progreso animada antes de redirigir al menú principal.
+![Pantalla de inicio](LaunchScreen.png "Pantalla de inicio")
 
 2. **Menú Principal (MenuScreen):**
    - Los usuarios seleccionan el nivel de dificultad y pueden iniciar una partida o consultar las instrucciones.
+![Menú principal](MenuScreen.png "Menú principal")
 
 3. **Juego (GameScreen):**
    - Muestra la palabra oculta, un teclado interactivo y el estado del ahorcado.
+![Pantalla del juego](GameScreen.png "Pantalla del juego")
 
 4. **Resultados (ResultScreen):**
    - Muestra si el usuario ganó o perdió, además de las opciones para volver a jugar o regresar al menú.
+![Resultado - Victoria](ResultScreenWin.png "Resultado de victoria")
+![Resultado - Derrota](ResultScreenLose.png "Resultado de derrota")
