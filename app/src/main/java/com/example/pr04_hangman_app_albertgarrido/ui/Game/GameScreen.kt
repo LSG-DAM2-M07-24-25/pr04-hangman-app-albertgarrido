@@ -86,10 +86,12 @@ fun GameScreen(
                     revealedWord = revealedWord,
                     modifier = Modifier.padding(vertical = 24.dp)
                 )
+                Spacer(modifier = Modifier.height(60.dp))
                 Image(
                     painter = painterResource(id = R.drawable.penjat),
                     contentDescription = "App Logo",
-                    modifier = Modifier.size(400.dp)
+                    modifier = Modifier.size(300.dp)
+                        .align(Alignment.CenterHorizontally)
                 )
             }
 
