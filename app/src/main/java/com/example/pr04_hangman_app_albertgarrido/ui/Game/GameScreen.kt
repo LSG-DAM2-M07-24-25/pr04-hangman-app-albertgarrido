@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.sp
 import com.example.pr04_hangman_app_albertgarrido.game.GameScreenViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen(
     difficulty: String,
@@ -48,7 +47,9 @@ fun GameScreen(
 
     LaunchedEffect(isGameFinished) {
         isGameFinished?.let { (isWin, score) ->
-            navController.navigate(Routes.Result.createRoute(isWin, score, viewModel.getWordToGuess()))
+            navController.navigate(Routes.Result.createRoute(isWin, score, viewModel.getWordToGuess(), difficulty)) {
+                popUpTo(Routes.Game.route) { inclusive = true }
+            }
             viewModel.resetGameFinishEvent()
         }
     }
@@ -121,8 +122,14 @@ fun KeyboardButton(
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy,
             stiffness = Spring.StiffnessLow
-        )
+        ), label = ""
     )
+
+    val contentColor = if (isGuessed) {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    } else {
+        MaterialTheme.colorScheme.onPrimary
+    }
 
     Button(
         onClick = onClick,
@@ -131,17 +138,21 @@ fun KeyboardButton(
         shape = CircleShape,
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor,
-            contentColor = MaterialTheme.colorScheme.onPrimary
+            contentColor = contentColor,
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = 4.dp,
-            pressedElevation = 8.dp
+            pressedElevation = 8.dp,
+            disabledElevation = 0.dp
         )
     ) {
         Text(
             text = letter.toString(),
             fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = contentColor
         )
     }
 }
@@ -158,7 +169,7 @@ fun WordDisplay(
             .padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
     ) {
-        revealedWord.forEachIndexed { index, char ->
+        revealedWord.forEachIndexed { _, char ->
             AnimatedVisibility(
                 visible = true,
                 enter = fadeIn(),

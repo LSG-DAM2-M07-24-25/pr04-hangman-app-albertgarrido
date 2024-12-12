@@ -37,5 +37,9 @@ fun LaunchScreen(viewModel: LaunchScreenViewModel = viewModel(), onNavigateToMen
             contentDescription = "App Logo",
             modifier = Modifier.size(200.dp)
         )
+        CircularProgressIndicator(
+            modifier = Modifier.size(50.dp)
+
+        )
     }
 }

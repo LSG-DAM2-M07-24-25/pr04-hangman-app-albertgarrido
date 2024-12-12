@@ -9,6 +9,9 @@ class MenuScreenViewModel : ViewModel() {
     private val _selectedDifficulty = MutableLiveData("Difficulty")
     val selectedDifficulty: LiveData<String> = _selectedDifficulty
 
+    private val _showHelpDialog = MutableLiveData(false)
+    val showHelpDialog: LiveData<Boolean> = _showHelpDialog
+
     fun setSelectedDifficulty(difficulty: String) {
         _selectedDifficulty.value = difficulty
     }
@@ -22,6 +25,10 @@ class MenuScreenViewModel : ViewModel() {
     }
 
     fun onHelpButtonClicked() {
-        // Implementar navegación o lógica para la pantalla de ayuda si es necesario
+        _showHelpDialog.value = true
+    }
+
+    fun hideHelpDialog() {
+        _showHelpDialog.value = false
     }
 }
