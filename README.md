@@ -62,11 +62,11 @@ La app utiliza Navegación Declarativa de Jetpack Compose para gestionar las tra
 
 2. **Menú Principal (MenuScreen):**
    - Los usuarios seleccionan el nivel de dificultad y pueden iniciar una partida o consultar las instrucciones.
-<img src="GameScreen.png" alt="Pantalla del juego" width="400"/>
+<img src="MenuScreen.png" alt="Menú principal" width="400"/>
 
 3. **Juego (GameScreen):**
    - Muestra la palabra oculta, un teclado interactivo y el estado del ahorcado.
-<img src="MenuScreen.png" alt="Menú principal" width="400"/>
+<img src="GameScreen.png" alt="Pantalla del juego" width="400"/>
 
 4. **Resultados (ResultScreen):**
    - Muestra si el usuario ganó o perdió, además de las opciones para volver a jugar o regresar al menú.
