@@ -63,8 +63,14 @@ fun Menu(
         Image(
             painter = painterResource(id = R.drawable.golgado),
             contentDescription = "App Logo",
-            modifier = Modifier.size(300.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp)
+                .aspectRatio(16f / 9f),
+            contentScale = ContentScale.Crop
         )
+        Spacer(modifier = Modifier.height(50.dp))
+
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -248,16 +254,25 @@ fun DifficultyDropDownMenu(
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Text(
-                        text = "3. Guess the hidden word by selecting letters.",
+                        text = "3. Guess the hidden word by selecting letters on the keyboard.",
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Text(
-                        text = "4. You have a limited number of incorrect guesses.",
+                        text = "4. Each incorrect guess will reduce your attempts left.",
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Text(
-                        text = "5. Try to guess the word before running out of attempts!",
+                        text = "5. If you run out of attempts, you lose the game.",
                         style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = "6. If you reveal the entire word before running out of attempts, you win!",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Good luck!, press 'OK' to close this dialog.",
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
             },

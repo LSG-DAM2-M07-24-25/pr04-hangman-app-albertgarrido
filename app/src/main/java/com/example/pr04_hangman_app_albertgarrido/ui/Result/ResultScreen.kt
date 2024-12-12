@@ -62,7 +62,7 @@ fun ResultScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.penjat),
+                    painter = painterResource(id = if (isWin) R.drawable.win else R.drawable.lose),
                     contentDescription = "App Logo",
                     modifier = Modifier
                         .size(200.dp)
@@ -73,7 +73,7 @@ fun ResultScreen(
                     text = resultMessage,
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = if (isWin) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.Center
                 )
 

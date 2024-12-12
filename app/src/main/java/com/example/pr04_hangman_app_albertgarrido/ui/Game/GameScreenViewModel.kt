@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class GameScreenViewModel : ViewModel() {
 
     private val footballPlayersEasy = listOf("Messi", "Ramos", "Xavi", "Gavi", "Kane, Puyol")
-    private val footballPlayersMedium = listOf("Neymar", "Mbappe", "Modric", "Haaland", "Pedri, Cubarsi")
+    private val footballPlayersMedium = listOf("Neymar", "Mbappe", "Modric", "Haaland", "Pedri", "Cubarsi")
     private val footballPlayersHard = listOf("Cristiano Ronaldo", "Robert Lewandowski", "Zlatan Ibrahimovic", "Ferran Torres", "Lamine Yamal")
 
     private lateinit var wordToGuess: String
