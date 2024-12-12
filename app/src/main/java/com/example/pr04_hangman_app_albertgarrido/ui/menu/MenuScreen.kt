@@ -35,7 +35,6 @@ fun MenuScreen(
             .padding(16.dp)
     ) {
         Menu(
-            Modifier.align(Alignment.Center),
             viewModel,
             onNavigateToGame
         )
@@ -49,7 +48,6 @@ fun MenuScreen(
 
 @Composable
 fun Menu(
-    modifier: Modifier,
     viewModel: MenuScreenViewModel,
     onNavigateToGame: (String) -> Unit
 ) {
@@ -62,6 +60,11 @@ fun Menu(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Image(
+            painter = painterResource(id = R.drawable.golgado),
+            contentDescription = "App Logo",
+            modifier = Modifier.size(300.dp)
+        )
         Card(
             modifier = Modifier
                 .fillMaxWidth()

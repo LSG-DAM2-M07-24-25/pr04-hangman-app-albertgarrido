@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -18,6 +19,7 @@ fun LaunchScreen(viewModel: LaunchScreenViewModel = viewModel(), onNavigateToMen
 
     // Observa el estado del temporizador
     val isTimerFinished: Boolean by viewModel.isTimerFinished.observeAsState(initial = false)
+    val progress by viewModel.progress.observeAsState(initial = 0f)
 
     // Navega al menú principal cuando el temporizador termine
     // Solo se hace 1 vez la transición
@@ -33,13 +35,21 @@ fun LaunchScreen(viewModel: LaunchScreenViewModel = viewModel(), onNavigateToMen
         modifier = Modifier.fillMaxSize()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.loadscreen),
+            painter = painterResource(id = R.drawable.golgado),
             contentDescription = "App Logo",
-            modifier = Modifier.size(200.dp)
+            modifier = Modifier.size(600.dp)
         )
-        CircularProgressIndicator(
-            modifier = Modifier.size(50.dp)
+        LinearProgressIndicator(
+            progress = { progress },
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 32.dp, vertical = 64.dp)
+                .height(10.dp),
+            color = MaterialTheme.colorScheme.primary,
+            trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
+            strokeCap = StrokeCap.Round
+        )
 
-        )
     }
 }
